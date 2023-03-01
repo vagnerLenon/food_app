@@ -1,91 +1,72 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from './page.module.css'
+import Image from "next/image";
+import Link from "next/link";
 
-const inter = Inter({ subsets: ['latin'] })
+import { images, dias, menu } from "@/Utils/constants";
 
 export default function Home() {
+  const dia_selecionado = 8;
+  const menu_selecionado = "calendario";
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex flex-col gap-8 h-screen w-full">
+      <Image
+        src={images.image_header}
+        alt=""
+        width={390}
+        height={448}
+        className="object-cover w-full h-[448px]"
+      />
+      <div className="px-8">
+        <span className="text-gray-normal text-sm">Hello, Adam!</span>
+        <div className="flex justify-between">
+          <h2 className="flex h-full text-white text-3xl font-extralight">
+            Ready to plan your week?
+          </h2>
+          <Image src={images.delivery_logo} alt="" width={88} height={75} />
+        </div>
+      </div>
+      <div className="px-5 flex w-full">
+        <ul className="flex w-full justify-between h-[66px]">
+          {dias.map((d) => (
+            <li
+              key={d.n}
+              className="flex flex-shrink-0 items-center cursor-pointer"
+              style={{
+                width: d.n === dia_selecionado ? "46px" : "40px",
+                padding: d.n === dia_selecionado ? "0" : "10px 0",
+              }}
+            >
+              {d.n !== dia_selecionado && (
+                <div className="transition-all ease-in-out hover:font-semibold flex flex-col w-full h-full items-center justify-center bg-green-dark hover:bg-white rounded-lg text-white hover:text-green-dark">
+                  <p>{d.n}</p>
+                </div>
+              )}
+              {d.n === dia_selecionado && (
+                <div className="transition-all ease-in-out flex flex-col w-full h-full items-center justify-center bg-white rounded-lg text-green-dark font-semibold border-t-[10px] border-t-green-600">
+                  <p className="text-xl leading-tight">{d.n}</p>
+                  <span className="leading-tight">{d.ds}</span>
+                </div>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="w-full flex justify-between items-center fixed bottom-0 h-[113px] bg-[#222223] rounded-t-3xl  p-4 z-50">
+        {menu.map((m) => (
+          <Link
+            key={m.id}
+            href="#"
+            className={`flex gap-2 items-center justify-center px-3 py-2 ${
+              menu_selecionado === m.id ? "bg-[#2A2F31]" : "none"
+            } rounded-xl text-white h-14`}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+            <m.icone size={22} />
+            <p className={`${menu_selecionado === m.id ? "flex" : "hidden"}`}>
+              {m.title}
+            </p>
+          </Link>
+        ))}
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }
