@@ -42,6 +42,8 @@ export const dias = [
   },
 ];
 
+export const dias_semana = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+
 export const menu = [
   {
     id: "calendario",
